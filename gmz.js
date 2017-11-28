@@ -1,11 +1,13 @@
 var fs = require('fs')
     , gm = require('gm');
 
-// resize and remove EXIF profile data
+// resize and remove EXIF varr sprofile data
+var s = 'Tráº§n Thanh Lá»£i';
+
 gm('z.jpg')
     //.resize(240, 240)
     .font("arialbd.ttf", 32)
-    .drawText(100,100,'Tràn ợ thanh Á')
+    .drawText(100,100,s)
     .encoding('Unicode')
     .write('resize.png', function (err) {
         //if (!err) console.log('done');
