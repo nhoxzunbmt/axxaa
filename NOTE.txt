@@ -1,0 +1,69 @@
+   var img_current = 'resize' + i + '.png';
+                    gm('bg.png')
+                        .composite(z_rz)
+                        .geometry('+136+180')
+
+
+                        .write(img_current, function (err) {
+                            console.log('Done!');
+
+
+                            gm(img_current)
+                                .font("arialbd.ttf", 12)
+                                .drawText(780, 220, s)
+                                .drawText(800, 450, s)
+                                .stroke("#ffffff")
+                                //.drawRectangle(10, 10, 20, 10)
+                                .encoding('Unicode').write(img_current, function (err) {
+                                console.log('Done!');
+                                console.log(i);
+                                i++;
+
+                            });
+
+
+                        });
+
+
+
+   var z_rz = 'step1/resize' + path.basename(file);
+            gm(file).resize(440, 320).write(z_rz, function (err) {
+                console.log(z_rz + ' ok');
+
+            });
+            i++;
+
+
+
+
+
+
+
+                        async.each(files, function (file, callback) {
+
+                                    // Perform operation on file here.
+                                    console.log('Processing file ' + file);
+
+                                    if (file.length > 32) {
+
+                                        var z_rz = 'z_resize' + i + '.jpg';
+                                        gm(file).resize(440, 320).write(z_rz, function (err) {
+                                            console.log(z_rz + ' ok');
+                                            console.log('This file name is too long');
+
+
+                                            callback('File name too long');
+                                        });
+
+
+                                        i++;
+
+
+                                    } else {
+                                        // Do work to process file here
+                                        console.log('File processed');
+                                        callback();
+                                    }
+                                }, function (err) {
+
+                                });
