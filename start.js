@@ -10,9 +10,18 @@ var ffprobe = require('@ffprobe-installer/ffprobe');
 videoshow.ffmpeg.setFfmpegPath(ffmpeg.path);
 videoshow.ffmpeg.setFfprobePath(ffprobe.path);
 
+const IMAGE_ROOT = __dirname + '\\input\\images';
+const AUDIO_ROOT = __dirname + '\\input\\audio';
+const FONT_ROOT = __dirname + '\\input\\fonts';
+
+const bg_image = IMAGE_ROOT + '\\bg\\bg.png';
+
+
+var images_folder = IMAGE_ROOT + '\\animals';
+
 var s = 'Anh em nghĩ chiếc YouTube Phone sẽ như thế nào?\n';
 s = utf8.encode(s);
-var images_folder = __dirname + '\\animals';
+
 
 
 dir.promiseFiles(images_folder)
@@ -26,6 +35,7 @@ dir.promiseFiles(images_folder)
         })
     })
     .then(function () {
+
         var images = [
             {
                 path: __dirname + '/result_merge_bg_resize_animals_hero_fennec2.jpg'
@@ -47,11 +57,11 @@ function hello_file(file) {
 
 function resize(file) {
     var base_name = path.basename(file);
-    var file_name = 'resize_' + base_name;
+    var file_name = 'resize/' + base_name;
     gm(file).resize(440, 320).write(file_name, function (err) {
         if (err) console.log(err);
         console.log('Done resize!');
-        merge_bg(file_name);
+        //merge_bg(file_name);
     });
 }
 

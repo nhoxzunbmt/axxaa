@@ -12,6 +12,8 @@
   "author": "242",
   "license": "MIT",
   "dependencies": {
+    "@ffmpeg-installer/ffmpeg": "^1.0.13",
+    "@ffprobe-installer/ffprobe": "^1.0.8",
     "async": "^2.6.0",
     "gm": "^1.23.0",
     "jimp": "^0.2.28",

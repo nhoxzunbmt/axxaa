@@ -1,69 +1,48 @@
-   var img_current = 'resize' + i + '.png';
-                    gm('bg.png')
-                        .composite(z_rz)
-                        .geometry('+136+180')
+// MERGE 2 AUDIO
+ffmpeg -i input1.mp3 -i input2.mp3 -filter_complex amerge -ac 2 -c:a libmp3lame -q:a 4 output.mp3
 
 
-                        .write(img_current, function (err) {
-                            console.log('Done!');
+---------------------------
+inputs: The number of inputs. If unspecified, it defaults to 2.
 
+duration: How to determine the end-of-stream.
 
-                            gm(img_current)
-                                .font("arialbd.ttf", 12)
-                                .drawText(780, 220, s)
-                                .drawText(800, 450, s)
-                                .stroke("#ffffff")
-                                //.drawRectangle(10, 10, 20, 10)
-                                .encoding('Unicode').write(img_current, function (err) {
-                                console.log('Done!');
-                                console.log(i);
-                                i++;
+longest: The duration of the longest input. (default)
 
-                            });
+shortest: The duration of the shortest input.
 
+first: The duration of the first input.
 
-                        });
+dropout_transition: The transition time, in seconds, for volume renormalization when an input stream ends. The default value is 2 seconds.
+ffmpeg -i background.mp3 -i bSound.mp3 -filter_complex amix=inputs=2:duration=first:dropout_transition=0 -codec:a libmp3lame -q:a 0 OUTPUT.mp3
 
 
 
-   var z_rz = 'step1/resize' + path.basename(file);
-            gm(file).resize(440, 320).write(z_rz, function (err) {
-                console.log(z_rz + ' ok');
+-vol N           # volume (256=normal)
 
-            });
-            i++;
+---------------------------------------------------------
+ffmpeg -i song.mp3 -i song_1.mp3 -i song_2.mp3 -filter_complex concat=n=3:v=0:a=1 -f MOV -vn -y vid.mp3
+
+
+ffmpeg -i dic/ice-skate.mp3 -i dic/Iceland.mp3 -i dic/icky.mp3 -filter_complex 'concat=n=3:v=0:a=1,afade=t=in:ss=0:d=15' -f MOV -vn -y vid.mp3
 
 
 
 
 
+ffmpeg -i 'dic/icing sugar.mp3' -t 10  -i dic/Iceland.mp3 -i dic/icky.mp3 -filter_complex 'concat=n=3:v=0:a=1' -y vid.mp3
 
 
-                        async.each(files, function (file, callback) {
 
-                                    // Perform operation on file here.
-                                    console.log('Processing file ' + file);
+---------------------------------------------------------
+for f in ./*.mp3; do echo "file '$f'" >> mylist.txt; done
 
-                                    if (file.length > 32) {
-
-                                        var z_rz = 'z_resize' + i + '.jpg';
-                                        gm(file).resize(440, 320).write(z_rz, function (err) {
-                                            console.log(z_rz + ' ok');
-                                            console.log('This file name is too long');
+----------------------------------------------------------
+ffmpeg -f lavfi -i anullsrc=channel_layout=mono:sample_rate=16000 -t 1 silence.wav
 
 
-                                            callback('File name too long');
-                                        });
+ffmpeg -f lavfi -i anullsrc=channel_layout=mono:sample_rate=16000 -t 1 silence_1.mp3
+ffmpeg -f lavfi -i anullsrc=channel_layout=mono:sample_rate=16000 -t 2 silence_2.mp3
 
 
-                                        i++;
-
-
-                                    } else {
-                                        // Do work to process file here
-                                        console.log('File processed');
-                                        callback();
-                                    }
-                                }, function (err) {
-
-                                });
+ffmpeg -i concat:"dic/Iceland.mp3|silence.mp3|dic/icing sugar.mp3|silence_2.mp3|dic/icky.mp3" -codec copy -y combined.mp3

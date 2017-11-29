@@ -1,0 +1,3 @@
+file 'resize_animals_hero_fennec2.jpg'
+duration 1.11
+file 'resize_animals_hero_panda.jpg'
