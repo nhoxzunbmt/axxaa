@@ -44,7 +44,7 @@ dir.promiseFiles(images_folder)
                 loop: 5
             }
         ];
-        make_video(images);
+        //make_video(images);
     })
     .catch(function (e) {
         console.log(e);
