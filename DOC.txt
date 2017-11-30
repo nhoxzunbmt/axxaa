@@ -1,0 +1,23 @@
+-r is the framerate (fps)
+-crf is the quality, lower means better quality, 15-25 is usually good
+-s is the resolution
+-pix_fmt yuv420p specifies the pixel format, change this as needed
+
+-start_number specifies what image to start at
+-vframes 1000 specifies the number frames/images in the video
+
+
+ffmpeg -r 60 -f image2 -s 1920x1080 -i pic%04d.png -i ~/path_to_overlay.png -filter_complex "[0:v][1:v] overlay=0:0" -vcodec libx264 -crf 25  -pix_fmt yuv420p test_overlay.mp4
+
+~/path_to_overlay.png is the full/relative path to the overlay image
+[0:v][1:v] joins the two video streams together, stream 1 is the set of images, stream 2 is the overlay file
+overlay=0:0 specifies the position of the overlay, in this case the overlay image is assumed to be the same size as the video so no offset is needed. The offset is specified as overlay=x:y where x is the x offset in pixels and y is the y offset in pixels
+
+ffmpeg -r 60 -f image2 -s 1280x720 -i pic%05d.png -i MP3FILE.mp3 -vcodec libx264 -b 4M -vpre normal -acodec copy OUTPUT.mp4
+-acodec copy Copies the audio from the input stream to the output stream
+
+
+ -b 4M :you can use the -b flag to specify the target bitrate, in this case it is 4 megabits per second
+
+ -vpre normal
+-vpre is the quality setting, better quality takes longer to encode, some alternatives are: default, normal, hq, max. Note that the -vpre command only works if the corresponding setting file is available.

@@ -1,6 +1,8 @@
 // MERGE 2 AUDIO
 ffmpeg -i input1.mp3 -i input2.mp3 -filter_complex amerge -ac 2 -c:a libmp3lame -q:a 4 output.mp3
 
+====================
+https://ffmpeg.org/ffmpeg-filters.html#drawtext-1
 
 ---------------------------
 inputs: The number of inputs. If unspecified, it defaults to 2.
@@ -30,7 +32,7 @@ ffmpeg -i dic/ice-skate.mp3 -i dic/Iceland.mp3 -i dic/icky.mp3 -filter_complex '
 
 
 
-ffmpeg -i 'dic/icing sugar.mp3' -t 10  -i dic/Iceland.mp3 -i dic/icky.mp3 -filter_complex 'concat=n=3:v=0:a=1' -y vid.mp3
+
 
 
 
@@ -46,3 +48,68 @@ ffmpeg -f lavfi -i anullsrc=channel_layout=mono:sample_rate=16000 -t 2 silence_2
 
 
 ffmpeg -i concat:"dic/Iceland.mp3|silence.mp3|dic/icing sugar.mp3|silence_2.mp3|dic/icky.mp3" -codec copy -y combined.mp3
+
+
+
+ffmpeg -i hinh/hinh_1.jpg -vf "[in]drawtext=fontfile=input/fonts/Roboto-Bold.ttf: text='Test Text'[out]" -c:v libx264 -t 30 -loop 5 vid.mp4
+ffmpeg -r 60 -f image2 -s 1920x1080 -i pic%04d.png -vcodec libx264 -crf 25  -pix_fmt yuv420p test.mp4
+ffmpeg -i hinh/hinh_1.jpg -vcodec libx264 -crf 25 -loop 5 -filter_complex concat=n=1:v=1:a=0  -pix_fmt yuv420p -y test.mp4
+
+
+ffmpeg -i C:\Users\thanhloi\AppData\Local\Temp\videoshow
+-3c073c4d-581b-4a84-9272-6b6846c60790 -y -filter_complex concat=n=1:v=1:a=0 C:\x
+ampp\htdocs\Node\jimp\video_temp\3f56a28e-193e-4610-81ba-25298bd6889d.mp4
+
+
+ffmpeg -i video.webm -ss 00:00:10 -vframes 1 thumbnail.png
+
+
+ffmpeg -loop 1 -i hinh/hinh_1.jpg -c:v libx264 -t 30 -pix_fmt yuv420p out.mp4
+
+
+
+ffmpeg -i video.mp4 -itsoffset 4 -i song.mp3 -y -map 0:0 -map 1:0 -t 5 -af afade=t=in:ss=0:st=4:d=3 -af afade=t=out:st=2:d=3 audio.mp4
+
+ffmpeg -i 'input/audio/dic/icing sugar.mp3' -i 'input/audio/dic/Iceland.mp3' -filter_complex 'concat=n=2:v=0:a=1' -y vid.mp3
+
+ffmpeg -i 'input/audio/dic/icing sugar.mp3' -itsoffset 4  -i 'input/audio/dic/Iceland.mp3' -map 0:0 -map 1:0 -t 5 -af afade=t=in:ss=0:st=4:d=3 -af afade=t=out:st=2:d=3 -y vid.mp3
+"C:\ffmpeg\bin\ffmpeg.exe" -itsoffset -00:00:00 -i %1 -itsoffset -00:00:00 -i %2 %3
+
+
+ffmpeg -i source_audio.mp3 -itsoffset 00:00:10.2 -i source_video.m2v target_video.flv
+
+
+
+ffmpeg -i 'video_temp/fennec.mp4' -itsoffset 1 -i 'input/audio/dic/icing sugar.mp3' -y -map 0:0 -map 1:0 -t 5 -af afade=t=in:ss=0:st=4:d=3 -af afade=t=out:st=2:d=3 target_video.mp4
+
+ffmpeg -i 'target_video.mp4' -itsoffset 2 -i 'input/audio/dic/icky.mp3' -y -vcodec copy -acodec copy  target_video2.mp4
+
+ffmpeg -i input1.mp3 -i input2.mp3 -filter_complex amerge -ac 2 -c:a libmp3lame -q:a 4 output.mp3
+
+ffmpeg -i 'input/audio/dic/icing sugar.mp3' -itsoffset 00:00:2.0 -i 'video_temp/fennec.mp4' target_video.mp4
+
+
+ffmpeg -i "tmp-$1" -itsoffset 0.06 -i "tmp-$1" -map "0:0" -map "1:1" -acodec copy -vcodec copy  "faster-$1"
+
+
+ffmpeg -i 'input/audio/dic/Iceland.mp3' -itsoffset 00:00:2.0 -i 'input/audio/dic/icing sugar.mp3' -filter_complex amix=inputs=2:duration=first:dropout_transition=3 -y audio.mp3
+
+ffmpeg -i 'input/audio/dic/Iceland.mp3' -i 'input/audio/dic/icing sugar.mp3' -filter_complex amerge -ac 2 -c:a libmp3lame -q:a 4 -t 5 output.mp3
+
+
+ffmpeg -i 'input/audio/dic/Iceland.mp3' -i 'input/audio/dic/icing sugar.mp3' -filter_complex amerge -ac 2 -c:a libmp3lame -q:a 4 -t 5 -y output.mp3
+
+
+ffmpeg -i 'video_temp/fennec.mp4' -i 'input/audio/dic/icing sugar.mp3' -filter_complex "[1:0] adelay=500|500 [delayed];[0:1][delayed] amix=inputs=2" -map 0:0 -c:a aac -strict -2 -c:v copy -y output.mp4
+
+
+ffmpeg -i 'output.mp4' -i 'input/audio/dic/icing sugar.mp3' -filter_complex "[1:0] adelay=500|500 [delayed];[0:1][delayed] amix=inputs=2" -map 0:0 -c:a aac -strict -2 -c:v copy -y output2.mp4
+
+
+
+ffmpeg -i 'output.mp4' -i 'input/audio/dic/Iceland.mp3' -filter_complex '[0:v] [1:a] concat=n=2:v=0:a=1 [v:a]' -y vid.mp4
+
+ffmpeg -i 'output.mp4' -i 'input/audio/dic/icing sugar.mp3' -c:v copy -filter_complex '[1:a] adelay=1500|1500 [delayed]; [0:a] [delayed] amix [out]' -map 0:v -map '[out]' -y output3.mp4
+
+
+ffmpeg -i 'output4.mp4' -i 'input/audio/dic/icky.mp3' -c:v copy -filter_complex '[1:a] adelay=2500|2500 [delayed]; [0:a] [delayed] amix [out]' -map 0:v -map '[out]' -y output5.mp4

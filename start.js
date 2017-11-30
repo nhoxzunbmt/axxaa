@@ -56,7 +56,28 @@ promise
         merge_videos();
     })
 ;
-
+function runFfmpeg(inputParams, input, outputParams, output) {
+    return new Promise(function(resolve, reject){
+        const ffmpegCommand = new ffmpeg()
+        ffmpegCommand.input(input)
+            .inputOptions(inputParams)
+            .on('start', (command) => {
+            // log start
+        })
+    .on('progress', (progress) => {
+            // log progress
+        })
+    .on('end', () => {
+            resolve('SUCCESS!')
+    })
+    .on('error', (error) => {
+            reject(error)
+        })
+    .outputOptions(outputParams)
+            .output(output)
+            .run()
+    })
+}
 
 function resize_img() {
     log('resize_img');
@@ -125,9 +146,10 @@ function add_text(file) {
     log('add_text');
     var file_name = 'merge/' + path.basename(file);
     gm(file)
-        .font(font_text, 36)
+        .font(font_text, 24)
         .drawText(780, 220, s)
         .drawText(800, 450, s)
+        //.drawText(900, 'h-30*t', s)
         .encoding('Unicode')
         .write(file_name, function (err) {
             if (err) console.log(err);
@@ -145,7 +167,7 @@ function make_video(file) {
     var audio = AUDIO_ROOT + '/song.mp3';
     var audioParams = {
         fade: true,
-        delay: 2 // seconds
+        delay: 0 // seconds
     };
     var videoOptions = {
         fps: 30,
@@ -173,6 +195,7 @@ function make_video(file) {
         .audio(audio, audioParams)
         //.logo(logo,logoParams)
         .save(video_tmp)
+
         .on('start', function (command) {
             //console.log('ffmpeg process started:', command)
         })
@@ -200,6 +223,8 @@ function merge_videos() {
             });
 
             p.then(function (ff) {
+
+
                 ff.on('end', function () {
                     console.log('files have been merged succesfully');
                 })
