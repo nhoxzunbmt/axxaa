@@ -56,28 +56,6 @@ promise
         merge_videos();
     })
 ;
-function runFfmpeg(inputParams, input, outputParams, output) {
-    return new Promise(function(resolve, reject){
-        const ffmpegCommand = new ffmpeg()
-        ffmpegCommand.input(input)
-            .inputOptions(inputParams)
-            .on('start', (command) => {
-            // log start
-        })
-    .on('progress', (progress) => {
-            // log progress
-        })
-    .on('end', () => {
-            resolve('SUCCESS!')
-    })
-    .on('error', (error) => {
-            reject(error)
-        })
-    .outputOptions(outputParams)
-            .output(output)
-            .run()
-    })
-}
 
 function resize_img() {
     log('resize_img');

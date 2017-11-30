@@ -31,7 +31,7 @@ var audio4 = 'input/audio/dic/Ichabod Crane.mp3';
 // ffmpeg.ffprobe(input, function(err, metadata) {
 //     console.dir(metadata);
 // });
-run();
+
 
 
 var s = 'Cánh đồng quạt gió này được biết đến rộng rãi sau khi xuất hiện trong \n' +
@@ -39,7 +39,7 @@ var s = 'Cánh đồng quạt gió này được biết đến rộng rãi sau k
     '\nnơi đây đã thu hút hàng trăm lượt “check-in” của các bạn trẻ chỉ trong thời gian ngắn.';
 //s = utf8.encode(s);
 s = 'hello';
-
+run(input,0);
 //sub();
 // (w-text_w)/2
 //
@@ -112,12 +112,24 @@ function sub() {
         }).run();
 }
 
-function run() {
+function run($input,index) {
     //ffmpeg -i video_temp/panda.mp4 -i input/audio/dic/Ichabod Crane.mp3 -y -filter_complex [1:a] adelay=4500|4500 [delayed];[0:a] [delayed] amix [out] -acodec aac -vcodec copy -map 0:v -map [out] output3.mp4
+    
+    var arrAudio = [
+        'iced.mp3',
+        'Iceland.mp3',
+        'iceman.mp3',
+        'Ichabod Crane.mp3'
+    ];
+    if(index+1 > arrAudio.length)
+    {
+        return 'Finish!';
+    }
 
+    var out = 'output_'+index+'.mp4';
     ffmpeg()
-        .input(input)
-        .input(audio4)
+        .input($input)
+        .input(AUDIO_ROOT+ '/dic/' + arrAudio[index])
         .complexFilter([
             '[1:a] adelay=4500|4500 [delayed]',
             '[0:a] [delayed] amix [out]'
@@ -128,11 +140,22 @@ function run() {
         ])
         .audioCodec('aac')
         .videoCodec('copy')
+
         .on('start', function (e) {
             console.log('Ffmpeg start :' + e);
+        })
+        .on('progress', function (e) {
+            console.log('Ffmpeg progress :', e);
         })
         .on('error', function (e) {
             console.log('Ffmpeg error :' + e);
         })
-        .save('output3.mp4')
+        .on('end', function() {
+            run(out,index);
+            console.log('Finished processing');
+        })
+        .save(out);
+
+
+
 }

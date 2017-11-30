@@ -112,4 +112,20 @@ ffmpeg -i 'output.mp4' -i 'input/audio/dic/Iceland.mp3' -filter_complex '[0:v] [
 ffmpeg -i 'output.mp4' -i 'input/audio/dic/icing sugar.mp3' -c:v copy -filter_complex '[1:a] adelay=1500|1500 [delayed]; [0:a] [delayed] amix [out]' -map 0:v -map '[out]' -y output3.mp4
 
 
-ffmpeg -i 'output4.mp4' -i 'input/audio/dic/icky.mp3' -c:v copy -filter_complex '[1:a] adelay=2500|2500 [delayed]; [0:a] [delayed] amix [out]' -map 0:v -map '[out]' -y output5.mp4
+ffmpeg -i 'output3.mp4' -i 'input/audio/dic/icky.mp3' -i 'input/audio/dic/Iceland.mp3' -c:v copy -filter_complex '[2:a] adelay=4500|4500 [delayed];[1:a] adelay=2500|2500; [0:a] [delayed] amix [out]' -map 0:v -map '[out]' -y output4.mp4
+
+
+ffmpeg -i output3.mp4 -map 0:2 -map 0:1 -map 0:0 -c copy output.mkv
+
+ffmpeg -i output.mkv -map 0:0 -map 0:1 -c copy output.mkv
+
+
+
+
+
+ffmpeg -i output3.mp4 -i 'input/audio/dic/icing sugar.mp3' -map 0:0 -map 1:0 -c copy output.mkv
+
+
+ffmpeg -i output3.mp4 -i 'input/audio/dic/icing sugar.mp3' -map 0:0 -map 0:1 -map 0:2 -map 1:0 -c copy -y output.mkv
+
+ffmpeg -i output.mkv  -map 0:v -map 0:a -c copy -y output3.mkv
