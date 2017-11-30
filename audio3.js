@@ -127,11 +127,12 @@ function run($input,index) {
     }
 
     var out = 'output_'+index+'.mp4';
+    var minue = 1000*index;
     ffmpeg()
         .input($input)
         .input(AUDIO_ROOT+ '/dic/' + arrAudio[index])
         .complexFilter([
-            '[1:a] adelay=4500|4500 [delayed]',
+            '[1:a] adelay='+minue+'|'+minue+' [delayed]',
             '[0:a] [delayed] amix [out]'
         ])
         .outputOptions([
