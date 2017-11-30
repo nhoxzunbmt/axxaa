@@ -151,7 +151,7 @@ function run($input,index) {
             console.log('Ffmpeg error :' + e);
         })
         .on('end', function() {
-            run(out,index);
+            run(out,index+1);
             console.log('Finished processing');
         })
         .save(out);
